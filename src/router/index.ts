@@ -1,10 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import { clearPending } from '/@/utils/request'
 
 // 路由配置 和以前一样
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/home'
   },
   {
     path: '/home',
@@ -33,6 +34,12 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHashHistory(), //路由模式的配置采用API调用的方式 不再是之前的字符串 此处采用的hash路由
   routes
+})
+
+router.beforeEach((to: any, from: any, next: () => void) => {
+  //在跳转路由之前，先清除所有的请求
+  clearPending()
+  next()
 })
 
 export default router
