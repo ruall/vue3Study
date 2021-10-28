@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <!-- <div>
     <ul>
       <li v-for="(stu, index) in state.stus" :key="index" @click="removeStu(index)">{{ stu }}</li>
     </ul>
@@ -9,26 +9,71 @@
       <input type="text" v-model="state2.stu.age" />
       <input type="submit" @click="addStudent" />
     </form>
-  </div>
+  </div> -->
+  <h3>foo: {{ foo }}</h3>
+  <h3>bar: {{ bar }}</h3>
+  <h3>foo2: {{ foo2 }}</h3>
+  <h3>bar2: {{ bar2 }}</h3>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, toRefs } from 'vue'
 import useAddStudent from './add'
 import useRemoveStudent from './rem'
 
 export default defineComponent({
   name: '',
   setup() {
-    const { state, removeStu } = useRemoveStudent()
+    /* const { state, removeStu } = useRemoveStudent()
     const { state2, addStudent } = useAddStudent(state)
     return {
       state,
       state2,
       removeStu,
       addStudent
+    } */
+    const state = reactive({
+      foo: 'a',
+      bar: 'b'
+    })
+
+    const stateAsRefs = toRefs(state)
+
+    setTimeout(() => {
+      state.foo += '++'
+      state.bar += '++'
+    }, 2000)
+
+    const { foo2, bar2 } = useReatureX()
+
+    return {
+      // ...state,
+      ...stateAsRefs,
+      foo2,
+      bar2
     }
   }
 })
+function useReatureX() {
+  const state = reactive({
+    foo2: [
+      {
+        id: 0,
+        val: 'adada'
+      }
+    ],
+    bar2: 'b'
+  })
+
+  setTimeout(() => {
+    state.foo2.push({
+      id: 1,
+      val: '1111111'
+    })
+    state.bar2 += '++'
+  }, 2000)
+
+  return toRefs(state)
+}
 
 /* function useAddStudent(state: { stus: { id: string; name: string; age: string }[] }) {
   const state2 = reactive({
