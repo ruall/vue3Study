@@ -7,6 +7,7 @@
 import { defineComponent, reactive, toRefs } from 'vue'
 //引入接口
 import { UserService } from '/@/api/user'
+import { myDecorate } from './index'
 
 export default defineComponent({
   setup() {
@@ -14,7 +15,7 @@ export default defineComponent({
       Account: 'admin', //账户
       Password: 'hhhh' //密码
     })
-
+    myDecorate('')
     const handleLogin = async () => {
       const loginParams = {
         username: state.Account,
